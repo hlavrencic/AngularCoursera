@@ -25,8 +25,15 @@ fxLayoutGap.xs="0">
   </md-card>
 </div>
 
-<div fxFlex="40">
-<p>Display the list of comments here</p>
+<div fxFlex="40" *ngIf="dish">
+  <h3>Comments</h3>
+  <md-list>
+    <md-list-item class="md-3-line" *ngFor="let commentItem of dish.comments">
+        <p md-line>{{commentItem.comment}}</p>
+        <p md-line>{{commentItem.rating}}</p>
+        <p md-line> - {{commentItem.author}}</p>
+    </md-list-item>
+  </md-list>
 </div>
 
 </div>
