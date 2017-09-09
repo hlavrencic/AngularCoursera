@@ -31,7 +31,7 @@ fxLayoutGap.xs="0">
     <md-list-item class="md-3-line" *ngFor="let commentItem of dish.comments">
         <p md-line>{{commentItem.comment}}</p>
         <p md-line>{{commentItem.rating}}</p>
-        <p md-line> - {{commentItem.author}}</p>
+        <p md-line> - {{commentItem.author}} {{commentItem.date | date}}</p>
     </md-list-item>
   </md-list>
 </div>
