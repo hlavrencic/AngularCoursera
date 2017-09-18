@@ -19,7 +19,6 @@ import { FooterComponent } from './footer/footer.component';
     AppComponent,
     MenuComponent,
     DishdetailComponent,
-    HeaderngComponent,
     HeaderComponent,
     FooterComponent
   ],
