@@ -7,6 +7,9 @@ import { Dish } from '../shared/dish';
 
 import 'rxjs/add/operator/switchMap';
 
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Comment } from '../shared/comment'
+
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -20,15 +23,26 @@ export class DishdetailComponent implements OnInit {
     prev: number;
     next: number;
   
+    commentForm: FormGroup;
+    newComment: Comment;
+
+    formErrors = {
+      author: '',
+      rating: ''
+    };
+
     constructor(private dishservice: DishService,
       private route: ActivatedRoute,
-      private location: Location) { }
+      private location: Location,
+      private fb: FormBuilder) { }
   
     ngOnInit() {
       this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
       this.route.params
         .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
         .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+
+      this.createForm();
     }
 
     setPrevNext(dishId: number) {
@@ -40,5 +54,16 @@ export class DishdetailComponent implements OnInit {
     goBack(): void {
       this.location.back();
     }
+
+    createForm() {
+      this.commentForm = this.fb.group({
+        author: ['', [Validators.required, Validators.minLength(2)] ],
+        rating: ['', [Validators.required] ],
+        comment: ['', [Validators.required, Validators.minLength(2)] ],
+        agree: false,
+        contacttype: 'None',
+        message: ''
+      });
+    }    
   
   }

@@ -44,9 +44,32 @@ fxLayoutGap.xs="0">
           </p>
       </mat-list-item>
     </mat-list>
+
+    <div [hidden]="dish">
+        <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+    </div>
+
+    <form novalidate [formGroup]="commentForm" >
+      <p>
+        <mat-input-container class="half-width"
+          dividerColor="{{(formErrors.author) ? 'warn' : 'primary'}}">
+          <input matInput formControlName="author" placeholder="Author" type="text" required>
+          <mat-hint>
+            <span [hidden]="!(false)">
+              {{formErrors.author}}</span>
+          </mat-hint>
+        </mat-input-container>
+      </p>
+      <p>
+        <mat-slider formControlName="rating" min="1" max="5" step="1" value="5" thumbLabel tickInterval="1"></mat-slider>
+      </p>
+      <p>
+        <mat-input-container class="full-width">
+          <textarea matInput formControlName="comment" placeholder="Your Comment" rows=5></textarea>
+        </mat-input-container>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+    </form>    
   </div>
 
-  <div [hidden]="dish">
-    <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
-  </div>
 </div>
