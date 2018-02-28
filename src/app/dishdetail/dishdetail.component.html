@@ -55,8 +55,7 @@ fxLayoutGap.xs="0">
           dividerColor="{{(formErrors.author) ? 'warn' : 'primary'}}">
           <input matInput formControlName="author" placeholder="Author" type="text" required>
           <mat-hint>
-            <span [hidden]="!(false)">
-              {{formErrors.author}}</span>
+              <span [hidden]="!(formErrors.author)">{{formErrors.author}}</span>
           </mat-hint>
         </mat-input-container>
       </p>
@@ -64,8 +63,12 @@ fxLayoutGap.xs="0">
         <mat-slider formControlName="rating" min="1" max="5" step="1" value="5" thumbLabel tickInterval="1"></mat-slider>
       </p>
       <p>
-        <mat-input-container class="full-width">
+        <mat-input-container class="full-width"
+          dividerColor="{{(formErrors.comment) ? 'warn' : 'primary'}}">
           <textarea matInput formControlName="comment" placeholder="Your Comment" rows=5></textarea>
+          <mat-hint>
+              <span [hidden]="!(formErrors.comment)">{{formErrors.comment}}</span>
+          </mat-hint>
         </mat-input-container>
       </p>
       <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>

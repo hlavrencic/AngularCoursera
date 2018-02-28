@@ -28,7 +28,18 @@ export class DishdetailComponent implements OnInit {
 
     formErrors = {
       author: '',
-      rating: ''
+      comment: ''
+    };
+
+    validationMessages = {
+      'author': {
+        'required':      'Author is required.',
+        'minlength':     'Author must be at least 2 characters long.'
+      },
+      'comment': {
+        'required':      'Last Name is required.',
+        'minlength':     'Last Name must be at least 2 characters long.'
+      }
     };
 
     constructor(private dishservice: DishService,
@@ -64,6 +75,28 @@ export class DishdetailComponent implements OnInit {
         contacttype: 'None',
         message: ''
       });
+
+      this.commentForm.valueChanges.subscribe(data => this.onValueChanged(data));
+
+      this.onValueChanged(); // (re)set form valitacion msg
     }    
   
+    onValueChanged(data?: any){
+      if (!this.commentForm) { return; }
+  
+      const form = this.commentForm;
+  
+      for(const field in this.formErrors){
+        this.formErrors[field] = '';
+        const control = form.get(field);
+  
+        if(control && control.dirty && !control.valid){
+          const messages = this.validationMessages[field];
+          for(const key in control.errors){
+            this.formErrors[field] += messages[key] + ' ';
+          }
+        }
+      }
+    }
+
   }
