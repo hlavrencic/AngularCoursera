@@ -69,7 +69,7 @@ export class DishdetailComponent implements OnInit {
     createForm() {
       this.commentForm = this.fb.group({
         author: ['', [Validators.required, Validators.minLength(2)] ],
-        rating: ['', [Validators.required] ],
+        rating: [5, [Validators.required] ],
         comment: ['', [Validators.required, Validators.minLength(2)] ],
         agree: false,
         contacttype: 'None',
@@ -85,7 +85,9 @@ export class DishdetailComponent implements OnInit {
       if (!this.commentForm) { return; }
   
       const form = this.commentForm;
-  
+
+      
+
       for(const field in this.formErrors){
         this.formErrors[field] = '';
         const control = form.get(field);
@@ -97,6 +99,23 @@ export class DishdetailComponent implements OnInit {
           }
         }
       }
+    }
+
+    onSubmit() {
+      
+      this.newComment = this.commentForm.value as Comment;
+      console.log(this.newComment);
+      this.commentForm.reset({
+        author: '',
+        comment: '',
+        rating: 5,
+        agree: false,
+        contacttype: 'None',
+        message: ''
+      });
+
+      this.newComment.date = new Date().toISOString();
+      this.dish.comments.push(this.newComment);
     }
 
   }
