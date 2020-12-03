@@ -7,12 +7,16 @@ import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldMo
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppComponent } from './app.component';
 
 import 'hammerjs';
+
+import { baseURL } from './shared/baseurl';
+
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
-
 import { DishService } from './services/dish.service';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -24,6 +28,9 @@ import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 
+
+import { ProcessHttpMsgService } from './services/processHttpMsg.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +41,7 @@ import { LoginComponent } from './login/login.component';
     AboutComponent,
     HomeComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,9 +53,13 @@ import { LoginComponent } from './login/login.component';
     FlexLayoutModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [DishService, PromotionService, LeaderService],
+  providers: [DishService, PromotionService, LeaderService, 
+    {provide: 'BaseURL', useValue: baseURL},
+    ProcessHttpMsgService
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     LoginComponent

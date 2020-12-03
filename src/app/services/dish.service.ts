@@ -3,27 +3,31 @@ import { Dish } from '../shared/dish';
 import { DISHES } from '../shared/dishes';
 import { Observable } from 'rxjs/Observable';
 
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { baseURL } from '../shared/baseurl';
+
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/observable/of';
 
 @Injectable()
 export class DishService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getDishes(): Observable<Dish[]> {
-    return Observable.of(DISHES).delay(2000);
+    return this.http.get<Dish[]>(baseURL + 'dishes');
   }
 
   getDish(id: number): Observable<Dish> {
-    return Observable.of(DISHES.filter((dish) => (dish.id === id))[0]).delay(2000);
+    return this.http.get<Dish>(baseURL + 'dishes/' + id);
   }
 
   getFeaturedDish(): Observable<Dish> {
-    return Observable.of(DISHES.filter((dish) => dish.featured)[0]).delay(2000);
+    return this.http.get<Dish[]>(baseURL + 'dishes?featured=true').pipe(map(dishes => dishes[0]));
   }
 
-  getDishIds(): Observable<number[]> {
-    return Observable.of(DISHES.map(dish => dish.id ));
+  getDishIds(): Observable<number[] | any> {
+    return this.getDishes().pipe(obs => obs.map(dishes => dishes.map(dish => dish.id)));
   }
 }
