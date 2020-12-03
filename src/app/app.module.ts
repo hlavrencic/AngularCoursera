@@ -29,7 +29,7 @@ import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 
 
-import { ProcessHttpMsgService } from './services/process-httpmsg.service';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { ProcessHttpMsgService } from './services/process-httpmsg.service';
   ],
   providers: [DishService, PromotionService, LeaderService, 
     {provide: 'BaseURL', useValue: baseURL},
-    ProcessHttpMsgService
+    ProcessHTTPMsgService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

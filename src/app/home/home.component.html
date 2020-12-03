@@ -18,6 +18,10 @@ fxLayoutGap="10px">
 </p>
 </mat-card-content>
 </mat-card>
+<div *ngIf="dishErrMess">
+    <h2>Error</h2>
+    <h4>{{dishErrMess}}</h4>
+  </div>
 
 <mat-card *ngIf="promotion" fxFlex>
 <mat-card-header>
@@ -26,7 +30,7 @@ fxLayoutGap="10px">
  <h3>{{promotion.name | uppercase}}</h3>
 </mat-card-title>
 </mat-card-header>
-<img mat-card-image src={{promotion.image}} alt={{promotion.name}}>
+<img mat-card-image src="{{BaseURL + promotion.image}}" alt="{{promotion.name}}">
 <mat-card-content>
 <p>{{promotion.description}}
 </p>
@@ -40,7 +44,7 @@ fxLayoutGap="10px">
     <h3>{{leader.name | uppercase}}</h3>
 </mat-card-title>
 </mat-card-header>
-<img mat-card-image src={{leader.image}} alt={{leader.name}}>
+<img mat-card-image src="{{BaseURL + leader.image}}" alt="{{leader.name}}">
 <mat-card-content>
     <h4>{{leader.designation}}</h4>
     <p>{{leader.description}}</p>
