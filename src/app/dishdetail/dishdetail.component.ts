@@ -25,7 +25,9 @@ export class DishdetailComponent implements OnInit {
   
     errMess: string;
     commentForm: FormGroup;
-    newComment: Comment;
+    comment: Comment;
+
+    dishcopy = null;
 
     formErrors = {
       author: '',
@@ -51,9 +53,11 @@ export class DishdetailComponent implements OnInit {
   
     ngOnInit() {
       this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds, errmess => this.errMess = <any>errmess);
+      
       this.route.params
-        .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-        .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      .switchMap((params: Params) => { return this.dishservice.getDish(+params['id']); })
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
+          errmess => { this.dish = null; this.errMess = <any>errmess; });
 
       this.createForm();
     }
@@ -105,8 +109,13 @@ export class DishdetailComponent implements OnInit {
 
     onSubmit() {
       
-      this.newComment = this.commentForm.value as Comment;
-      console.log(this.newComment);
+      this.comment = this.commentForm.value as Comment;
+      this.comment.date = new Date().toISOString();
+      console.log(this.comment);
+      this.dishcopy.comments.push(this.comment);
+      this.dishcopy.save()
+        .subscribe(dish => { this.dish = dish; console.log(this.dish); });
+        
       this.commentForm.reset({
         author: '',
         comment: '',
@@ -116,8 +125,7 @@ export class DishdetailComponent implements OnInit {
         message: ''
       });
 
-      this.newComment.date = new Date().toISOString();
-      this.dish.comments.push(this.newComment);
+      
     }
 
   }
