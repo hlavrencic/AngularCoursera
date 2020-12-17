@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, expand } from '../animations/app.animation';
 import { FeedbackService } from '../services/feedback.service';
 import { Feedback, ContactType } from '../shared/feedback';
 
@@ -14,14 +14,17 @@ import { Feedback, ContactType } from '../shared/feedback';
     'style': 'display: block;'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  submitting: boolean = false;
   contactType = ContactType;
+
 
   formErrors = {
     firstname: '',
@@ -95,11 +98,13 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    this.feedbackService.submitFeedback(this.feedback).subscribe(feedbackResponse => 
-      console.log(feedbackResponse));
+    this.submitting = true;
+    this.feedbackService.submitFeedback(this.feedbackForm.value).subscribe(feedbackResponse => {
+      this.feedback = feedbackResponse;
+      this.submitting = false;
+      setTimeout(() => {this.feedback = null;}, 5000);
+    });
     
-    console.log(this.feedback);
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
